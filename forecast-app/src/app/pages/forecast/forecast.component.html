@@ -1,0 +1,18 @@
+<div class="stepper__block">
+  <mat-stepper orientation="vertical">
+    <mat-step *ngFor="let i of forecastData.details">
+      <ng-template matStepLabel>{{i.date | date: "EEEE: MMMM d, y"}}</ng-template>
+      <ng-template matStepContent>
+        <p>{{i.description | uppercase}}</p>
+        <p>Min:&nbsp;{{i.minTemperature}}°C</p>
+        <p>Max:&nbsp;{{i.maxTemperature}}°C</p>
+        <img src="{{i.icon}}" alt="{{i.description}}">
+      </ng-template>
+    </mat-step>
+  </mat-stepper>
+</div>
+
+<div class="btn__block">
+  <button mat-raised-button color="basic" (click)="backToLocation()">Back</button>
+</div>
+

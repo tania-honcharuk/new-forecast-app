@@ -1,0 +1,30 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened>
+    <app-location></app-location>
+  </mat-drawer>
+  <mat-drawer-content>
+    <h1>Current weather list</h1>
+    <div *ngIf="locations | async as locationsData">
+      <mat-card *ngFor="let location of locationsData">
+        {{location.city}}
+        <mat-card-title>{{ weatherDetails.cityName }}</mat-card-title>
+        <div class="row">
+          <mat-card-content>
+            <p><strong>Current conditions</strong>: {{weatherDetails.description}}</p>
+            <p><strong>Temparature</strong>: {{weatherDetails.currentTemperature}}°C</p>
+            <p><strong>Min</strong>: {{weatherDetails.minTemperature}}°C</p>
+            <p><strong>Max</strong>: {{weatherDetails.maxTemperature}}°C</p>
+          </mat-card-content>
+          <mat-card-content>
+            <img mat-card-sm-image src="{{weatherDetails.icon}}">
+          </mat-card-content>
+        </div>
+        <mat-card-actions align="end">
+          <button mat-button (click)="onDisplayClimate()">Climate Forecast</button>
+          <button mat-button (click)="onDisplayForecast()">5-Days Forecast</button>
+          <button mat-button (click)="onDeleteLocation(location.id)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
