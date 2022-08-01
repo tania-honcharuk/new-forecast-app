@@ -1,3 +1,4 @@
+import { SharingService } from './../../services/sharing.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ForecastData } from '../../models/ForecastData.model';
@@ -11,14 +12,17 @@ import { ForecastDetails } from '../../models/ForecastDetails.model';
 })
 export class ForecastComponent implements OnInit {
   forecastData!: ForecastData;
-  city: string = "Ohio";
+  city!: string;
 
   constructor(
     private forecastService: ForecastService,
-    private router: Router
+    private router: Router,
+    private sharingService: SharingService,
   ) { }
 
   ngOnInit(): void {
+    this.city = this.sharingService.getData();
+    console.log(this.city, 999);
     this.forecastService.LoadForecastWeather(this.city).subscribe(
       res => {
         this.forecastData = new ForecastData();
@@ -40,5 +44,4 @@ export class ForecastComponent implements OnInit {
   backToLocation() {
     this.router.navigateByUrl(`/current`);
   }
-
 }

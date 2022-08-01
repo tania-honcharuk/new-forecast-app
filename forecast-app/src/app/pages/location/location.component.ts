@@ -1,11 +1,11 @@
-import { getLocations } from './state/locations.selector';
+import { AppState } from './../../store/app.state';
+import { AddLocationAction } from './state/locations.actions';
 import { Observable } from 'rxjs';
-import { addLocation } from './state/locations.actions';
 import { Location } from '../../models/locations.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/app.state';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-location',
@@ -14,27 +14,28 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class LocationComponent implements OnInit {
+  locationItems$!: Observable<Array<Location>>;
   locationForm!: FormGroup;
-  value!: string;
   locations!: Observable<Location[]>;
-  location!: string;
-  testid!: string;
+  newLocationItem: Location = { id: '', city: '' };
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.locationItems$ = this.store.select(store => store.locations);
+
     this.locationForm = new FormGroup({
       city: new FormControl(null),
     });
-    this.locations = this.store.select(getLocations)
   }
 
   onSubmit() {
-    const location: Location = {
-      city: this.locationForm.value.city,
-      id: '',
-    };
-    this.store.dispatch(addLocation({ location }));
-  }
+    this.newLocationItem.id = uuid();
+    this.newLocationItem.city = this.locationForm.value.city;
 
+    this.store.dispatch(new AddLocationAction(this.newLocationItem));
+
+    this.newLocationItem = { id: '', city: '' }
+    this.locationForm.reset('');
+  }
 }

@@ -1,3 +1,5 @@
+import { SharingService } from './../../services/sharing.service';
+import { Router } from '@angular/router';
 import { ClimateDetails } from './../../models/climateDetails.model';
 import { ClimateData } from './../../models/climateData.model';
 import { ForecastService } from './../../services/forecast.service';
@@ -11,20 +13,21 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./climate.component.scss']
 })
 export class ClimateComponent implements OnInit {
-  city: string = "Ohio";
+  city!: string;
   climateData!: ClimateData;
-  // data = this.climateData.details;
-  numbers!: any;
   displayedColumns: string[] = ['date', 'temperature', 'icon', 'min', 'max', 'wind', 'pressure', 'humidity', 'clouds'];
-  dataSource!: any;
+  dataSource!: Array<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
+    private sharingService: SharingService,
     private forecastService: ForecastService,
+    private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.city = this.sharingService.getData()
     this.forecastService.LoadForecastWeather(this.city).subscribe(
       res => {
         this.climateData = new ClimateData();
@@ -50,9 +53,8 @@ export class ClimateComponent implements OnInit {
     )
   }
 
-  // ngAfterViewInit() {
-  //   // this.data.paginator = this.paginator;
-  //   // this.data.sort = this.sort;
-  // }
+  backToLocation() {
+    this.router.navigateByUrl(`/current`);
+  }
 
 }

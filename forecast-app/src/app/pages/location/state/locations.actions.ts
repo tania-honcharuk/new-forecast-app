@@ -1,21 +1,29 @@
-import { Location } from "../../../models/locations.model";
-import { createAction, props } from '@ngrx/store';
+import { Location } from './../../../models/locations.model';
+import { Action } from '@ngrx/store';
 
-export const ADD_LOCATION_ACTION = '[posts page] add post';
-export const UPDATE_LOCATION_ACTION = '[posts page] update post';
-export const DELETE_LOCATION_ACTION = '[posts page] delete post';
+export enum LocationActionType {
+  ADD_LOCATION = '[LOCATION] add location',
+  DELETE_LOCATION = '[LOCATION] delete location',
+  GET_LOCATION = '[LOCATION] get location',
 
-export const addLocation = createAction(
-  ADD_LOCATION_ACTION,
-  props<{ location: Location }>()
-);
+}
 
-export const updateLocation = createAction(
-  UPDATE_LOCATION_ACTION,
-  props<{ location: Location }>()
-);
+export class AddLocationAction implements Action {
+  readonly type = LocationActionType.ADD_LOCATION;
 
-export const deleteLocation = createAction(
-  DELETE_LOCATION_ACTION,
-  props<{ id: string }>()
-);
+  constructor(public payload: Location) {}
+}
+
+export class DeleteLocationAction implements Action {
+  readonly type = LocationActionType.DELETE_LOCATION;
+
+  constructor(public payload: string) {}
+}
+
+export class GetLocationAction implements Action {
+  readonly type = LocationActionType.GET_LOCATION;
+
+  constructor(public payload: string) {}
+}
+
+export type LocationAction = AddLocationAction | DeleteLocationAction | GetLocationAction;

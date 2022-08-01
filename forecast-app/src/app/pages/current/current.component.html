@@ -4,8 +4,8 @@
   </mat-drawer>
   <mat-drawer-content>
     <h1>Current weather list</h1>
-    <div *ngIf="locations | async as locationsData">
-      <mat-card *ngFor="let location of locationsData">
+    <!-- <div *ngIf="locations | async as locationsData"> -->
+      <mat-card *ngFor="let location of locationItems$ | async">
         {{location.city}}
         <mat-card-title>{{ weatherDetails.cityName }}</mat-card-title>
         <div class="row">
@@ -20,11 +20,11 @@
           </mat-card-content>
         </div>
         <mat-card-actions align="end">
-          <button mat-button (click)="onDisplayClimate()">Climate Forecast</button>
-          <button mat-button (click)="onDisplayForecast()">5-Days Forecast</button>
+          <button mat-button (click)="onDisplayClimate(location.city)">Climate Forecast</button>
+          <button mat-button (click)="onDisplayForecast(location.city)">5-Days Forecast</button>
           <button mat-button (click)="onDeleteLocation(location.id)">Delete</button>
         </mat-card-actions>
       </mat-card>
-    </div>
+    <!-- </div> -->
   </mat-drawer-content>
 </mat-drawer-container>

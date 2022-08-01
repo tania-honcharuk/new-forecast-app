@@ -1,40 +1,16 @@
-import { addLocation, deleteLocation, updateLocation } from "./locations.actions";
-import { createReducer, on } from '@ngrx/store';
-import { initialState } from "./locations.state";
+import { Location } from './../../../models/locations.model';
+import { LocationAction, LocationActionType } from './locations.actions';
+import { initialState } from './locations.state';
 
-const _locationsReduser = createReducer(
-  initialState,
-  on(addLocation, (state, action) => {
-    let location = {...action.location};
-
-    location.id = (state.locations.length + 1).toString();
-    return {
-      ...state,
-      locations: [...state.locations, location],
-    }
-  }),
-  on(updateLocation, (state, action) => {
-    const updatedLocation = state.locations.map((location) => {
-      return action.location.id === location.id ? action.location : location;
-    });
-
-    return {
-      ...state,
-      locations: updatedLocation,
-    };
-  }),
-  on(deleteLocation, (state, { id }) => {
-    const updatedLocation = state.locations.filter((location) => {
-      return location.id !== id;
-    });
-
-    return {
-      ...state,
-      locations: updatedLocation,
-    };
-  })
-);
-
-export function locationsReducer(state:any, action:any) {
-  return _locationsReduser(state, action)
-}
+export function LocationsReducer(state: Array<Location> = initialState, action: LocationAction) {
+  switch (action.type) {
+    case LocationActionType.ADD_LOCATION:
+      return [...state, action.payload];
+    case LocationActionType.DELETE_LOCATION:
+      return state.filter(location => location.id !== action.payload);
+    case LocationActionType.GET_LOCATION:
+      return state.find(location => location.city === action.payload);
+    default:
+      return state;
+  }
+};

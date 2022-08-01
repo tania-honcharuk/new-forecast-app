@@ -1,11 +1,5 @@
-import { LocationsState } from "../pages/location/state/locations.state";
-
-import { locationsReducer } from "../pages/location/state/locations.reducer";
+import { Location } from "../models/locations.model";
 
 export interface AppState {
-  locations: LocationsState;
-}
-
-export const appReducer = {
-  locations: locationsReducer,
+  readonly locations: Location[];
 };

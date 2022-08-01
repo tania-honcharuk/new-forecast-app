@@ -1,13 +1,13 @@
+import { SharingService } from './../../services/sharing.service';
+import { DeleteLocationAction, GetLocationAction } from './../location/state/locations.actions';
 import { AppState } from './../../store/app.state';
 import { WeatherData } from '../../models/weatherData.model';
 import { ForecastService } from '../../services/forecast.service';
-import { getLocations, getLocationById, getLocationByCity } from '../location/state/locations.selector';
 import { Store } from '@ngrx/store';
 import { Location } from '../../models/locations.model';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { deleteLocation } from '../location/state/locations.actions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-current',
@@ -15,33 +15,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./current.component.scss']
 })
 export class CurrentComponent implements OnInit {
-  locations!: Observable<Location[]>;
-  location: any;
+  locationItems$!: Observable<Array<Location>>;
   weatherDetails: WeatherData = new WeatherData();
   locationSubscription!: Subscription;
-  test = 'Ohio'
 
   constructor(
-    private route: ActivatedRoute,
     private store: Store<AppState>,
     private forecastService: ForecastService,
-    private router: Router
+    private router: Router,
+    private sharingService: SharingService
   ) { }
 
   ngOnInit(): void {
-    this.locations = this.store.select(getLocations);
-    console.log(888, this.store.select(getLocations.toString))
-    //let city = store.state.locations.
-    this.route.paramMap.subscribe((params) => {
-      const city = params.get('city');
-      this.locationSubscription = this.store
-        .select(getLocationByCity, { city })
-        .subscribe((data) => {
-          this.location = data;
-          console.log(1232, this.location)
-        });
-    });
-    // this.forecastService.LoadCurrentWeather(this.location).subscribe(
+    this.locationItems$ = this.store.select(store => store.locations);
+    // this.forecastService.LoadCurrentWeather(location).subscribe(
     //   res => {
     //     this.weatherDetails.cityName = res.name;
     //     this.weatherDetails.description = res.weather[0].description;
@@ -55,16 +42,16 @@ export class CurrentComponent implements OnInit {
 
 
   onDeleteLocation(id: string) {
-    this.store.dispatch(deleteLocation({ id }));
+    this.store.dispatch(new DeleteLocationAction(id));
   }
 
-  onDisplayForecast() {
-    console.log(2134)
-    this.router.navigateByUrl(`/forecast/${this.test}`);
+  onDisplayForecast(city: string) {
+    this.sharingService.setData(city);
+    this.router.navigateByUrl(`/forecast/${city}`);
   }
 
-  onDisplayClimate() {
-    console.log(23456)
-    this.router.navigateByUrl(`/climate/${this.test}`);
+  onDisplayClimate(city: string) {
+    this.sharingService.setData(city);
+    this.router.navigateByUrl(`/climate/${city}`);
   }
 }
