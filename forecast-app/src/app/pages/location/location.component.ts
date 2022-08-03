@@ -30,12 +30,15 @@ export class LocationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.newLocationItem.id = uuid();
-    this.newLocationItem.city = this.locationForm.value.city;
+    if (this.locationForm.value > 0) {
+      this.newLocationItem.id = uuid();
+      this.newLocationItem.city = this.locationForm.value.city;
 
-    this.store.dispatch(new AddLocationAction(this.newLocationItem));
+      this.store.dispatch(new AddLocationAction(this.newLocationItem));
 
-    this.newLocationItem = { id: '', city: '' }
-    this.locationForm.reset('');
+      this.newLocationItem = { id: '', city: '' }
+      this.locationForm.reset('');
+    }
+
   }
 }
