@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ForecastService {
   host = "https://api.openweathermap.org/data/2.5/";
+  pro = "https://pro.openweathermap.org/data/2.5/";
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +16,7 @@ export class ForecastService {
     return this.http.get(`${this.host}forecast`, {
       params: {
         q: city,
-        appid: '5a4b2d457ecbef9eb2a71e480b947604',
+        appid: '2567b6a423f8a4bdbb21355b06d655a4',
         units: 'metric'
       }
     })
@@ -25,7 +26,7 @@ export class ForecastService {
     return this.http.get(`${this.host}weather`, {
       params: {
         q: city,
-        appid: '5a4b2d457ecbef9eb2a71e480b947604',
+        appid: 'a395f6600caf94b2b00514da75a2c89e',
         units: 'metric'
       }
     })

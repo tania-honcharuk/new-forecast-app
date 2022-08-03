@@ -1,5 +1,5 @@
 import { SharingService } from './../../services/sharing.service';
-import { DeleteLocationAction, GetLocationAction } from './../location/state/locations.actions';
+import { DeleteLocationAction } from './../location/state/locations.actions';
 import { AppState } from './../../store/app.state';
 import { WeatherData } from '../../models/weatherData.model';
 import { ForecastService } from '../../services/forecast.service';
@@ -18,6 +18,8 @@ export class CurrentComponent implements OnInit {
   locationItems$!: Observable<Array<Location>>;
   weatherDetails: WeatherData = new WeatherData();
   locationSubscription!: Subscription;
+  loc!: any;
+  city!: any;
 
   constructor(
     private store: Store<AppState>,
@@ -28,18 +30,27 @@ export class CurrentComponent implements OnInit {
 
   ngOnInit(): void {
     this.locationItems$ = this.store.select(store => store.locations);
-    // this.forecastService.LoadCurrentWeather(location).subscribe(
-    //   res => {
-    //     this.weatherDetails.cityName = res.name;
-    //     this.weatherDetails.description = res.weather[0].description;
-    //     this.weatherDetails.currentTemperature = Math.round(res.main.temp);
-    //     this.weatherDetails.icon = "http://openweathermap.org/img/wn/" + res.weather[0].icon + ".png";
-    //     this.weatherDetails.maxTemperature = Math.round(res.main.temp_max);
-    //     this.weatherDetails.minTemperature = Math.round(res.main.temp_min);
-    //   });
+    this.locationItems$.subscribe(
+      locations => {
+        locations.forEach(i => {
+
+          this.forecastService.LoadCurrentWeather(i.city).subscribe(
+            res => {
+              this.weatherDetails.cityName = res.name;
+              this.weatherDetails.description = res.weather[0].description;
+              this.weatherDetails.currentTemperature = Math.round(res.main.temp);
+              this.weatherDetails.icon = "http://openweathermap.org/img/wn/" + res.weather[0].icon + ".png";
+              this.weatherDetails.maxTemperature = Math.round(res.main.temp_max);
+              this.weatherDetails.minTemperature = Math.round(res.main.temp_min);
+              console.log(this.weatherDetails, 8585)
+            })
+        })
+      }
+    )
+
+
+
   }
-
-
 
   onDeleteLocation(id: string) {
     this.store.dispatch(new DeleteLocationAction(id));

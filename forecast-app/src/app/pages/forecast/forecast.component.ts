@@ -1,9 +1,9 @@
 import { SharingService } from './../../services/sharing.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ForecastData } from '../../models/ForecastData.model';
+import { ForecastData } from '../../models/forecastData.model';
 import { ForecastService } from './../../services/forecast.service';
-import { ForecastDetails } from '../../models/ForecastDetails.model';
+import { ForecastDetails } from '../../models/forecastDetails.model';
 
 @Component({
   selector: 'app-forecast',
@@ -22,7 +22,6 @@ export class ForecastComponent implements OnInit {
 
   ngOnInit(): void {
     this.city = this.sharingService.getData();
-    console.log(this.city, 999);
     this.forecastService.LoadForecastWeather(this.city).subscribe(
       res => {
         this.forecastData = new ForecastData();

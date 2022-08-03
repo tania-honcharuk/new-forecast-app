@@ -1,3 +1,4 @@
+<h2>{{climateData.cityName}}</h2>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="date">
@@ -8,16 +9,6 @@
     <ng-container matColumnDef="temperature">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Temperature </th>
       <td mat-cell *matCellDef="let element">{{element.currentTemperature}}°C</td>
-    </ng-container>
-
-    <ng-container matColumnDef="icon">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let element">
-        <div class="colum">
-          {{element.description | uppercase}}
-          <img src="{{element.icon}}" alt="{{element.description}}">
-        </div>
-      </td>
     </ng-container>
 
     <ng-container matColumnDef="min">
@@ -53,7 +44,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
 </div>
 
 <div class="btn__block">

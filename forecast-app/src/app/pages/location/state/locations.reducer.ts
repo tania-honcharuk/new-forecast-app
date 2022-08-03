@@ -9,7 +9,7 @@ export function LocationsReducer(state: Array<Location> = initialState, action: 
     case LocationActionType.DELETE_LOCATION:
       return state.filter(location => location.id !== action.payload);
     case LocationActionType.GET_LOCATION:
-      return state.find(location => location.city === action.payload);
+      return action.payload;
     default:
       return state;
   }

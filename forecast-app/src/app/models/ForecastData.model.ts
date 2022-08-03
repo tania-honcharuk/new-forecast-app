@@ -1,6 +1,6 @@
-import { ForecastDetails } from "./ForecastDetails.model";
+import { ForecastDetails } from "./forecastDetails.model";
 
 export class ForecastData {
-  public name!: string
+  public name?: string
   public details: Array<ForecastDetails> = new Array<ForecastDetails>();
 }

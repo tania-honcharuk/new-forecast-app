@@ -1,6 +1,7 @@
 <div class="stepper__block">
+  <h1>{{forecastData?.name}} 5-days forecast</h1>
   <mat-stepper orientation="vertical">
-    <mat-step *ngFor="let i of forecastData.details">
+    <mat-step *ngFor="let i of forecastData?.details">
       <ng-template matStepLabel>{{i.date | date: "EEEE: MMMM d, y"}}</ng-template>
       <ng-template matStepContent>
         <p>{{i.description | uppercase}}</p>
