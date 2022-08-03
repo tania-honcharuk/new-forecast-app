@@ -18,8 +18,7 @@ export class CurrentComponent implements OnInit {
   locationItems$!: Observable<Array<Location>>;
   weatherDetails: WeatherData = new WeatherData();
   locationSubscription!: Subscription;
-  loc!: any;
-  city!: any;
+  city!: string;
 
   constructor(
     private store: Store<AppState>,
@@ -47,9 +46,6 @@ export class CurrentComponent implements OnInit {
         })
       }
     )
-
-
-
   }
 
   onDeleteLocation(id: string) {

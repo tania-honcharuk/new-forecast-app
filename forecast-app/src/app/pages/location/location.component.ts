@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Location } from '../../models/locations.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 
 @Component({
@@ -25,7 +25,7 @@ export class LocationComponent implements OnInit {
     this.locationItems$ = this.store.select(store => store.locations);
 
     this.locationForm = new FormGroup({
-      city: new FormControl(null),
+      city: new FormControl(null, Validators.required),
     });
   }
 
